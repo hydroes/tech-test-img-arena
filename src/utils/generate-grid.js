@@ -1,6 +1,7 @@
-const { MINE, CLEAR } = require('../constants/mine-field-key')
+const { MINE, CLEAR } = require('../constants/mine-field-legend')
 const adjacentCells = require('../constants/directions')
 const config = require('../config')
+const createGrid = require('./create-grid')
 
 // @todo: move this to a helper
 const getRandomInt = (max) => {
@@ -48,18 +49,6 @@ const placeMines = (grid) => {
   return { gridWithMines, mineCoOrds }
 }
 
-// -------------------------------------------------------------------------------------
-
-// x = horizontal, y = vertical
-const createEmptyGrid = (gridMaxX, GridMaxY) => {
-  // create a multi dimensional array
-  return Array(GridMaxY).fill().map((_, y) => {
-    return Array(gridMaxX).fill().map((_, x) => 0)
-  });
-}
-
-// -------------------------------------------------------------------------------------
-
 const isValidMarker = (gridWithMines, x, y) => {
   if (gridWithMines[y] === undefined
     || gridWithMines[y][x] === undefined
@@ -95,7 +84,7 @@ const placeMineMarkers = (gridWithMines, mineCoOrds) => {
 }
 
 module.exports = () => {
-  const emptyGrid = createEmptyGrid(config.gameSettings.rowWidth, config.gameSettings.columnHeight)
+  const emptyGrid = createGrid(config.gameSettings.rowWidth, config.gameSettings.columnHeight, 0)
   const { gridWithMines, mineCoOrds } = placeMines(emptyGrid);
   const gridWithMarkers = placeMineMarkers(gridWithMines, mineCoOrds)
   return gridWithMarkers

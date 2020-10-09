@@ -26,6 +26,7 @@ app.listen(config.port, () => {
   console.log(`Example app listening at http://localhost:${config.port}`)
 })
 
+// @todo: remove this
 const t = [
   [0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0],
@@ -56,6 +57,7 @@ const t = [
 // @todo: overall:
 // - format data store functions
 // - get rid of headers already sent error
+// - objects are modified by reference, be wary!
 
 // - METHODS: reveal empty cells, add fog
 

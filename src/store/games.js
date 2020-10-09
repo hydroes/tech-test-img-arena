@@ -1,5 +1,8 @@
 const short = require('short-uuid')
-const games = []
+
+const testGame = require('./test-game')
+
+const games = [testGame]
 
 module.exports = {
   getGames: () => games,

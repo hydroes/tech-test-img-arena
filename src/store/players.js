@@ -14,7 +14,12 @@ const testPlayers = [
   {
     id: 'player3',
     name: 'player 3',
-    isPlaying: false
+    isPlaying: true
+  },
+  {
+    id: 'player4',
+    name: 'player 4',
+    isPlaying: true
   }
 ]
 
