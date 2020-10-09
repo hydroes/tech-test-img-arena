@@ -46,7 +46,7 @@ const createGame = (req, res) => {
 
   const game = gameStore.addGame(gameData)
   const { grid, ...gameDataWithoutGrid } = game
-  res.send(gameDataWithoutGrid)
+  res.send(displayGameState(game))
 }
 
 const playMove = (req, res) => {
@@ -72,23 +72,26 @@ const playMove = (req, res) => {
     res.status(400).send('it is not your turn to play')
   }
 
-  // toggle player
-  game.playerCurrentTurn = game.players.find(p => p !== player.id)
-
   // @todo: 
   // - tally player points
   const square = getCoOrdInfo(game.grid, req.body.coOrds.x, req.body.coOrds.y)
   switch (square) {
     case MINE:
       // @todo:
+      // toggle player
+      game.playerCurrentTurn = game.players.find(p => p !== player.id)
       // mark players as available so they can play other games
       game.revealedGrid[req.body.coOrds.y][req.body.coOrds.x] = game.grid[req.body.coOrds.y][req.body.coOrds.x]
       game.state = gameStates.OVER
       return res.status(200).send(displayGameState(game, player, req))
     case MARKER:
+      // toggle player
+      game.playerCurrentTurn = game.players.find(p => p !== player.id)
       game.revealedGrid[req.body.coOrds.y][req.body.coOrds.x] = game.grid[req.body.coOrds.y][req.body.coOrds.x]
       return res.status(200).send(displayGameState(game, player, req))
     case CLEAR:
+      // toggle player
+      game.playerCurrentTurn = game.players.find(p => p !== player.id)
       const calculateEmptyCells = (curX, curY, alreadyVisited) => {
         const curSquareType = getCoOrdInfo(game.grid, curX, curY)
         if (curSquareType === CLEAR) {
