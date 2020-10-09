@@ -118,7 +118,6 @@ const playMove = (req, res) => {
         }
       }
       calculateEmptyCells(req.body.coOrds.x, req.body.coOrds.y, [])
-      // console.log('-'.repeat(50), 'game.grid', game.grid);
       return res.status(200).send(displayGameState(game, player, req))
     default:
       return res.status(400).send('Invalid grid co-ordinates')
