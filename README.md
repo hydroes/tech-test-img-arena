@@ -1,3 +1,8 @@
+# setup
+npm i && npm run start
+
+please see postman collection for samples on how to play
+
 # Minesweeper
 
 ## Background

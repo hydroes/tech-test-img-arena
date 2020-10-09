@@ -1,0 +1,140 @@
+{
+	"info": {
+		"_postman_id": "1dace2ec-a5f5-4ecc-9576-21b92ef95914",
+		"name": "IMG_ARENA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:3000/players",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/players",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"players"
+					]
+				},
+				"description": "get players"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/players",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"player5\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/players",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"players"
+					]
+				},
+				"description": "create player"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/game",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"players\": [\"player1\", \"player2\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/game",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"game"
+					]
+				},
+				"description": "create game"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/game",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/game/test-game",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"game",
+						"test-game"
+					]
+				},
+				"description": "get game state"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/game/test-game/move",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"player\": \"player3\",\n    \"coOrds\": {\n        \"x\": 0,\n        \"y\": 0\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/game/test-game/move",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"game",
+						"test-game",
+						"move"
+					]
+				},
+				"description": "play a move"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

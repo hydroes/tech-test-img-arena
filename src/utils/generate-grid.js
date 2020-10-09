@@ -63,10 +63,8 @@ const placeMarkers = (gridWithMines, mineCoOrds) => {
 
   mineCoOrds.forEach((mine) => {
     // iterate over adjacent cells and increment if valid
-    // console.log('-'.repeat(50), 'mine', mine);
     // go thru mine adjacent cells
     for (const [key, adjacentCellDirection] of Object.entries(adjacentCells)) {
-      // console.log('-'.repeat(50), `${key}: ${adjacentCellDirection}`);
       let cellDirectionCoOrds = adjacentCellDirection(mine.x, mine.y)
       if (isValidMarker(gridWithMarkers, cellDirectionCoOrds.x, cellDirectionCoOrds.y) !== false) {
         gridWithMarkers[cellDirectionCoOrds.y][cellDirectionCoOrds.x] += 1

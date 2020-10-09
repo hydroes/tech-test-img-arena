@@ -26,8 +26,8 @@ const createGame = (req, res) => {
     return player
   });
 
-  if (players.length < 2) {
-    res.status(400).send('At least 2 players are required')
+  if (players.length !== 2) {
+    res.status(400).send('Only 2 players currently supported')
   }
 
   const gameGrid = generateGameGrid()
@@ -45,15 +45,11 @@ const createGame = (req, res) => {
   }
 
   const game = gameStore.addGame(gameData)
-
-  console.log('-'.repeat(50), 'game', game);
-
   const { grid, ...gameDataWithoutGrid } = game
   res.send(gameDataWithoutGrid)
 }
 
 const playMove = (req, res) => {
-  // console.log('-'.repeat(50), 'req.body', req.body);
   // validate game
   const game = gameStore.getGameById(req.params.id)
   if (!game) {
@@ -62,6 +58,8 @@ const playMove = (req, res) => {
   if (game.state === gameStates.OVER) {
     res.send('This game is over', 400)
   }
+
+  console.log('-'.repeat(50), 'game', game);
 
   // validate player
   const player = playerStore.getPlayerById(req.body.player)
@@ -74,6 +72,9 @@ const playMove = (req, res) => {
     res.status(400).send('it is not your turn to play')
   }
 
+  // toggle player
+  game.playerCurrentTurn = game.players.find(p => p !== player.id)
+
   // @todo: 
   // - tally player points
   const square = getCoOrdInfo(game.grid, req.body.coOrds.x, req.body.coOrds.y)
@@ -81,26 +82,18 @@ const playMove = (req, res) => {
     case MINE:
       // @todo:
       // mark players as available so they can play other games
-      // - reveal mines + revealed squares
       game.revealedGrid[req.body.coOrds.y][req.body.coOrds.x] = game.grid[req.body.coOrds.y][req.body.coOrds.x]
       game.state = gameStates.OVER
       return res.status(200).send(displayGameState(game, player, req))
     case MARKER:
-      // @todo:
-      // add single coOrd to revealed squares array
-      // switch player turn
-      // render board with revealed squares
       game.revealedGrid[req.body.coOrds.y][req.body.coOrds.x] = game.grid[req.body.coOrds.y][req.body.coOrds.x]
       return res.status(200).send(displayGameState(game, player, req))
     case CLEAR:
-      // @todo:
-      // switch player turn
       const calculateEmptyCells = (curX, curY, alreadyVisited) => {
         const curSquareType = getCoOrdInfo(game.grid, curX, curY)
-        // game.revealedGrid[curX][curY] = game.grid[curX][curY]
         if (curSquareType === CLEAR) {
           // add coOrd to revealed grid
-          game.revealedGrid[curX][curY] = game.grid[curX][curY]
+          game.revealedGrid[curY][curX] = game.grid[curY][curX]
           // if empty cell then add to alreadyVisited
           alreadyVisited.push({ x: curX, y: curY })
         }
@@ -111,8 +104,7 @@ const playMove = (req, res) => {
             let adjacentCellInfo = getCoOrdInfo(game.grid, adjacentCellCoOrds.x, adjacentCellCoOrds.y)
 
             if (adjacentCellInfo === MARKER) {
-              // game.revealedGrid[adjacentCellCoOrds.x][adjacentCellCoOrds.y] = game.grid[adjacentCellCoOrds.x][adjacentCellCoOrds.y]
-              // game.revealedGrid[adjacentCellCoOrds.x][adjacentCellCoOrds.y] = game.grid[curX][curY]
+              game.revealedGrid[adjacentCellCoOrds.y][adjacentCellCoOrds.x] = game.grid[adjacentCellCoOrds.y][adjacentCellCoOrds.x]
             }
 
             let hasBeenVisited = alreadyVisited.find((visitedCoOrd) => {
