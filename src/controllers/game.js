@@ -53,23 +53,21 @@ const playMove = (req, res) => {
   // validate game
   const game = gameStore.getGameById(req.params.id)
   if (!game) {
-    res.send('gameId not found', 404)
+    return res.send('gameId not found', 404)
   }
   if (game.state === gameStates.OVER) {
-    res.send('This game is over', 400)
+    return res.send('This game is over', 400)
   }
-
-  console.log('-'.repeat(50), 'game', game);
 
   // validate player
   const player = playerStore.getPlayerById(req.body.player)
   if (!player) {
-    res.status(404, 'playerId not found')
+    return res.status(404, 'playerId not found')
   }
 
   // validate the player turn
   if (player.id !== game.playerCurrentTurn) {
-    res.status(400).send('it is not your turn to play')
+    return res.status(400).send('it is not your turn to play')
   }
 
   // @todo: 
